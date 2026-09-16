@@ -1,0 +1,12 @@
+<div id="<%= dom_id idea %>">
+  <div>
+    <strong>Name:</strong>
+    <%= idea.name %>
+  </div>
+
+  <div>
+    <strong>Description:</strong>
+    <%= idea.description %>
+  </div>
+<%= image_tag(idea.picture, width: 600) if idea.picture.attached? %>
+</div>
