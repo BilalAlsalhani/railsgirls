@@ -33,7 +33,7 @@ class IdeasControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should update idea" do
+  test "should updatse idea" do
     patch idea_url(@idea), params: { idea: { description: @idea.description, name: @idea.name } }
     assert_redirected_to idea_url(@idea)
   end

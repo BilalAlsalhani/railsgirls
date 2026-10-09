@@ -8,11 +8,13 @@ class IdeasController < ApplicationController
 
   # GET /ideas/1 or /ideas/1.json
   def show
+  @comments = @idea.comments
   end
 
   # GET /ideas/new
-  def new
+  def new 
     @idea = Idea.new
+  
   end
 
   # GET /ideas/1/edit
@@ -48,8 +50,9 @@ class IdeasController < ApplicationController
   end
 
   # DELETE /ideas/1 or /ideas/1.json
-  def destroy
+  def destroy 
     @idea.destroy!
+
 
     respond_to do |format|
       format.html { redirect_to ideas_path, notice: "Idea was successfully destroyed.", status: :see_other }

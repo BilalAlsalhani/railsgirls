@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   
-  resources :ideas
-  #root to:redirect("/ideas")
-  root "pages#homepage"
+resources :ideas do
+  resources :comments
+end
+  root to:redirect("/ideas")
+  
   get "pages/about"
   get "meal/food"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

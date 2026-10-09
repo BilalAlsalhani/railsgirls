@@ -1,0 +1,30 @@
+
+<% if idea.persisted?()%>
+<%= form_with(model: [idea, comment]) do |form| %>
+    <% if comment.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+      <ul>
+        <% comment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="mb-3">
+    <%= form.label :user_name, "Your name", class: "form-label" %>
+    <%= form.text_field :user_name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :body, "Comment message", class: "form-label" %>
+    <%= form.text_area :body, class: "form-control" %>
+  </div>
+
+  <%= form.submit "save",  class: "btn btn-success" %>
+ <% end %>
+<% else %>
+tets
+<% end %>
+

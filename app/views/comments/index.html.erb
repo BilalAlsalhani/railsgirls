@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Comments</h1>
+<%= link_to "Add a new comment", new_comment_path, class: "btn btn-primary mb-3" %>
+
+<div class="list-group w-auto">
+  <% @ideas.each do |comment| %>
+    <%= render comment %>
+    
+  <% end %>
+</div>
