@@ -1,11 +1,14 @@
+<%= @idea.inspect %>
+
 <p style="color: green"><%= notice %></p>
 
 <div id="<%= dom_id @idea %>" class="d-flex gap-3 py-3">
   <div class="d-flex flex-column gap-2 w-100">
     <h1><%= @idea.name %></h1>
     <p><%= @idea.description %></p>
-    <small class="opacity-50 text-nowrap">Last updated <%= time_ago_in_words @idea.updated_at %></small>
-  </div>
+    
+    
+    </div>
   <%= image_tag(@idea.picture, width: 150, height: 150, class: "img-thumbnail flex-shrink-0") if @idea.picture.attached? %>
 </div>
 
@@ -15,26 +18,68 @@
   <%= button_to "Destroy this idea", @idea, method: :delete, class: "btn btn-danger", form: { data: { turbo_confirm: "Are you sure?" } } %>
 </div>
 
+
+
+<%= turbo_frame_tag "comments" do %>
+<%= turbo_frame_tag "new_comment" do %>
+
+
+  <%= link_to "Add a comment",
+      new_idea_comment_path(@idea),
+      class: "btn btn-primary" %>
+<% end %>
+
+
+
+
 <h2>Comments</h2>
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    Sort
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="#">created newest</a></li>
+   <% @idea.comments.order(created_at: :desc) %>
+    <li><a class="dropdown-item" href="#">created oldest</a></li>
+    <% @comments.order(created_at: :asc) %>
+   
+  </ul>
+
 <% if @comments.any? %>
+
   <% @comments.each do |comment| %>
+  
+
     <div>
       
         <div class="card mb-4">
-          <div class="card-body">
+
+
+           <div class="card-body">
+             <%= turbo_frame_tag "edit_comment" do %>
+          
+          <% if comment.updated_at != comment.created_at %>
+           <div>
+<small class="opacity-50 text-nowrap">Last updated <%= time_tag comment.updated_at %></small>
+<% else %>
+<small class="opacity-50 text-nowrap">created <%= time_tag comment.created_at %></small>
+<% end %>
       <p><strong><%= comment.user_name %></strong></p>
       <p><%= comment.body %></p>
       <div class="d-flex gap-1 py-1">
-      <%= link_to "edit", edit_idea_comment_path(@idea, comment), class: "btn btn-outline-secondary btn-sm"%>
-      <%= button_to "Delete", idea_comment_path(@idea, comment), method: :delete, class: "btn btn-danger btn-sm", form: { data: { turbo_confirm: "Are you sure?" } } %>
-    
-    </div>
+  
+          <%= link_to "edit", edit_idea_comment_path(@idea, comment), class: "btn btn-outline-secondary btn-sm"%>
+      
+        
+        <%= button_to "Delete", idea_comment_path(@idea, comment), method: :delete, class: "btn btn-danger btn-sm", form: { data: { turbo_frame: "comments", turbo_confirm: "Are you sure?" } } %>
+       
+       <% end %>
+       
+      </div>
      </div>
     </div>
   <% end %>
 <% else %>
   <p>No comments found.</p>
 <% end %>
-
-<h2>Add a new comment</h2>
-<%= link_to "Post comment", new_idea_comment_path(@idea, @comment)%>
+<% end %>
